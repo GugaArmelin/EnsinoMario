@@ -5,6 +5,7 @@
  */
 package model;
 
+import interfaces.ModItemSelection;
 import interfaces.ModJTable;
 import java.io.Serializable;
 import java.util.List;
@@ -33,7 +34,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Funcionarios.findById", query = "SELECT f FROM Funcionarios f WHERE f.id = :id"),
     @NamedQuery(name = "Funcionarios.findByFuncionario", query = "SELECT f FROM Funcionarios f WHERE f.funcionario = :funcionario"),
     @NamedQuery(name = "Funcionarios.findByProfessor", query = "SELECT f FROM Funcionarios f WHERE f.professor = :professor")})
-public class Funcionarios implements Serializable, ModJTable {
+public class Funcionarios implements Serializable, ModJTable, ModItemSelection {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,7 +55,6 @@ public class Funcionarios implements Serializable, ModJTable {
         this.id = id;
     }
 
-    @Override
     public Integer getId() {
         return id;
     }
@@ -114,13 +114,23 @@ public class Funcionarios implements Serializable, ModJTable {
     }
 
     @Override
-    public String getValue() {
+    public Object getFirst() {
+        return getId();
+    }
+    
+    @Override
+    public Object getSecond() {
         return getFuncionario();
     }
 
     @Override
-    public String getDesc() {
+    public Object getThird() {
         return ( getProfessor() == 1 ) ? "Sim" : "Não";
+    }
+
+    @Override
+    public String value() {
+        return getFuncionario();
     }
     
 }

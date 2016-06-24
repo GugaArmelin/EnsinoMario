@@ -7,10 +7,8 @@ package ui.model;
 
 import mycustom.Table;
 import mycustom.CustomFrame;
-import controller.CursosJpaController;
-import javax.persistence.Persistence;
-import model.Alunos;
 import model.Cursos;
+import ui.MainFrame;
 
 /**
  *
@@ -23,7 +21,7 @@ public class UiCurso extends CustomFrame {
      */
     public UiCurso() {
         initComponents();
-        tTable.setModel(new Table(controller.findCursosEntities(), colums));
+        tTable.setModel(new Table(MainFrame.CURSO_CONTROLLER.findCursosEntities(), colums));
     }
 
     /**
@@ -69,6 +67,7 @@ public class UiCurso extends CustomFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tTable.setEnabled(false);
         jScrollPane1.setViewportView(tTable);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -112,14 +111,12 @@ public class UiCurso extends CustomFrame {
         Cursos c = new Cursos();
         c.setCurso(txtCurso.getText());
         
-        controller.create(c);
-        tTable.setModel(new Table(controller.findCursosEntities(), colums));
+        MainFrame.CURSO_CONTROLLER.create(c);
+        tTable.setModel(new Table(MainFrame.CURSO_CONTROLLER.findCursosEntities(), colums));
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private static final Object[] colums = {"ID", "Curso", "-"};
-    private CursosJpaController controller = new CursosJpaController(
-            Persistence.createEntityManagerFactory("EnsinoMarioPU")
-    );
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     javax.swing.JTable tTable;
     javax.swing.JTextField txtCurso;

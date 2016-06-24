@@ -8,12 +8,10 @@ package ui.model;
 import mycustom.Table;
 import mycustom.ItemSelection;
 import mycustom.CustomFrame;
-import controller.AlunosJpaController;
-import controller.CursosJpaController;
 import java.util.List;
-import javax.persistence.Persistence;
 import model.Alunos;
 import model.Cursos;
+import ui.MainFrame;
 
 /**
  *
@@ -27,17 +25,13 @@ public class UiAlunos extends CustomFrame {
     public UiAlunos() {
         super();
         initComponents();
-        
-        CursosJpaController c = 
-                new CursosJpaController(Persistence.createEntityManagerFactory("EnsinoMarioPU"));
-        
-        List<Cursos> cursos = c.findCursosEntities();
-        
+      
+        // Fill Cursos
+        List<Cursos> cursos = MainFrame.CURSO_CONTROLLER.findCursosEntities();
         for (Cursos curso : cursos) {
             cbCursos.addItem(new ItemSelection<>(curso));
         }
-        
-        tAlunos.setModel(new Table<>(controller.findAlunosEntities(), colums));
+        tAlunos.setModel(new Table<>(MainFrame.ALUNO_CONTROLLER.findAlunosEntities(), colums));
     }
 
     /**
@@ -71,6 +65,7 @@ public class UiAlunos extends CustomFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tAlunos.setEnabled(false);
         jScrollPane1.setViewportView(tAlunos);
 
         jLabel1.setText("Nome");
@@ -139,8 +134,8 @@ public class UiAlunos extends CustomFrame {
         a.setAluno(txtNome.getText());
         a.setIdCurso(ci.get());
         
-        controller.create(a);
-        tAlunos.setModel(new Table<>(controller.findAlunosEntities(), colums));
+        MainFrame.ALUNO_CONTROLLER.create(a);
+        tAlunos.setModel(new Table<>(MainFrame.ALUNO_CONTROLLER.findAlunosEntities(), colums));
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void cbCursosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbCursosActionPerformed
@@ -148,9 +143,6 @@ public class UiAlunos extends CustomFrame {
     }//GEN-LAST:event_cbCursosActionPerformed
 
     private static final Object[] colums = {"Matrícula", "Nome", "Curso"};
-    private AlunosJpaController controller = new AlunosJpaController(
-            Persistence.createEntityManagerFactory("EnsinoMarioPU")
-    );
     private ItemSelection<Cursos> ci;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     javax.swing.JComboBox cbCursos;

@@ -22,7 +22,7 @@ public class Table<T extends ModJTable> extends DefaultTableModel {
         }
         
         for (T t : ts) {
-            addRow(new Object[]{t.getId(), t.getValue(), t.getDesc()});
+            addRow(new Object[]{t.getFirst(), t.getSecond(), t.getThird()});
         }   
     }
     

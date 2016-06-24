@@ -11,9 +11,10 @@ package interfaces;
  */
 public interface ModJTable {
     
-    public Integer getId();
+    public Object getFirst();
     
-    public String getValue();
+    public Object getSecond();
     
-    public String getDesc();
+    public Object getThird();
+    
 }

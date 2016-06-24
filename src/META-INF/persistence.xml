@@ -6,6 +6,7 @@
     <class>model.Cursos</class>
     <class>model.Funcionarios</class>
     <class>model.Disciplinas</class>
+    <class>model.RelAlunosDisciplina</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://127.0.0.1:3306/ensino_mario_dois?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.user" value="root"/>

@@ -7,11 +7,9 @@ package ui.model;
 
 import mycustom.Table;
 import mycustom.CustomFrame;
-import controller.DisciplinasJpaController;
 import java.util.Calendar;
-import java.util.Date;
-import javax.persistence.Persistence;
 import model.Disciplinas;
+import ui.MainFrame;
 
 /**
  *
@@ -26,7 +24,7 @@ public class UiDisciplina extends CustomFrame {
         super();
         initComponents();
         
-        tTable.setModel(new Table<>(controller.findDisciplinasEntities(), colums));
+        tTable.setModel(new Table<>(MainFrame.DISCIPLINA_CONTROLLER.findDisciplinasEntities(), colums));
     }
 
     /**
@@ -61,6 +59,7 @@ public class UiDisciplina extends CustomFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tTable.setEnabled(false);
         jScrollPane1.setViewportView(tTable);
 
         jLabel.setText("Disciplina");
@@ -140,17 +139,14 @@ public class UiDisciplina extends CustomFrame {
         
         d.setHorario(c.getTime());
         
-        controller.create(d);
-        tTable.setModel(new Table<>(controller.findDisciplinasEntities(), colums));
+        MainFrame.DISCIPLINA_CONTROLLER.create(d);
+        tTable.setModel(new Table<>(MainFrame.DISCIPLINA_CONTROLLER.findDisciplinasEntities(), colums));
 
     }//GEN-LAST:event_btSalvarActionPerformed
 
     
     private static final Object[] colums = {"ID", "Disciplina", "Dia/Horário"};
-    private DisciplinasJpaController controller = new DisciplinasJpaController(
-            Persistence.createEntityManagerFactory("EnsinoMarioPU")
-    );
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     javax.swing.JTable tTable;
     javax.swing.JTextField txtDia;

@@ -125,12 +125,17 @@ public class Cursos implements Serializable, ModItemSelection, ModJTable {
     }
 
     @Override
-    public String getValue() {
+    public Object getFirst() {
+        return getId();
+    }
+        
+    @Override
+    public Object getSecond() {
         return getCurso();
     }
 
     @Override
-    public String getDesc() {
+    public Object getThird() {
         return null;
     }
     

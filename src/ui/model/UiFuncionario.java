@@ -7,9 +7,8 @@ package ui.model;
 
 import mycustom.Table;
 import mycustom.CustomFrame;
-import controller.FuncionariosJpaController;
-import javax.persistence.Persistence;
 import model.Funcionarios;
+import ui.MainFrame;
 
 /**
  *
@@ -23,14 +22,11 @@ public class UiFuncionario extends CustomFrame {
     public UiFuncionario() {
         initComponents();
 
-        tTable.setModel(new Table<>(controller.findFuncionariosEntities(), colums));
+        tTable.setModel(new Table<>(MainFrame.FUNCIONARIO_CONTROLLER.findFuncionariosEntities(), colums));
     }
 
     private static final Object[] colums = {"ID", "Nome", "Professor?"};
-    private FuncionariosJpaController controller = new FuncionariosJpaController(
-            Persistence.createEntityManagerFactory("EnsinoMarioPU")
-    );
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -61,6 +57,7 @@ public class UiFuncionario extends CustomFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tTable.setEnabled(false);
         jScrollPane1.setViewportView(tTable);
 
         jLabel1.setText("Nome");
@@ -88,7 +85,7 @@ public class UiFuncionario extends CustomFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 588, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 474, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
@@ -120,9 +117,9 @@ public class UiFuncionario extends CustomFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(26, 26, 26)
                         .addComponent(jButton1)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 126, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -133,8 +130,8 @@ public class UiFuncionario extends CustomFrame {
         a.setFuncionario(txtNome.getText());
         a.setProfessor((checked) ? (short) 1 : (short) 0);
         
-        controller.create(a);
-        tTable.setModel(new Table<>(controller.findFuncionariosEntities(), colums));
+        MainFrame.FUNCIONARIO_CONTROLLER.create(a);
+        tTable.setModel(new Table<>(MainFrame.FUNCIONARIO_CONTROLLER.findFuncionariosEntities(), colums));
 
     }//GEN-LAST:event_jButton1ActionPerformed
 

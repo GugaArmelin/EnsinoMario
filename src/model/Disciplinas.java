@@ -21,6 +21,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -71,7 +72,6 @@ public class Disciplinas implements Serializable, ModJTable, ModItemSelection {
         this.id = id;
     }
 
-    @Override
     public Integer getId() {
         return id;
     }
@@ -157,18 +157,24 @@ public class Disciplinas implements Serializable, ModJTable, ModItemSelection {
     }
 
     @Override
-    public String getValue() {
+    public Object getFirst() {
+        return getId();
+    }
+    
+    @Override
+    public Object getSecond() {
         return getDisciplina();
     }
 
     @Override
-    public String getDesc() {
+    public Object getThird() {
         return getDia() + "a-feira/" + getHorario().getHours() + ":" + getHorario().getMinutes();
     }
 
     @Override
     public String value() {
-        return getDisciplina();
+        return getDisciplina() + " - " + getThird();
     }
+
     
 }

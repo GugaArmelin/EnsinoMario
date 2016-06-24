@@ -36,7 +36,12 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Alunos.findAll", query = "SELECT a FROM Alunos a"),
     @NamedQuery(name = "Alunos.findById", query = "SELECT a FROM Alunos a WHERE a.id = :id"),
     @NamedQuery(name = "Alunos.findByAluno", query = "SELECT a FROM Alunos a WHERE a.aluno = :aluno")})
-public class Alunos implements Serializable, ModJTable {
+public class Alunos implements Serializable, ModJTable, ModItemSelection {
+    @JoinTable(name = "rel_alunos_disciplina_establised", joinColumns = {
+        @JoinColumn(name = "id_aluno", referencedColumnName = "id")}, inverseJoinColumns = {
+        @JoinColumn(name = "id_disciplina", referencedColumnName = "id")})
+    @ManyToMany
+    private List<Disciplinas> disciplinasList1;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -60,8 +65,7 @@ public class Alunos implements Serializable, ModJTable {
     public Alunos(Integer id) {
         this.id = id;
     }
-
-    @Override
+    
     public Integer getId() {
         return id;
     }
@@ -119,15 +123,34 @@ public class Alunos implements Serializable, ModJTable {
     public String toString() {
         return "model.Alunos[ id=" + id + " ]";
     }
+    
+    @Override
+    public Object getFirst() {
+        return getId();
+    }
 
     @Override
-    public String getValue() {
+    public Object getSecond() {
         return getAluno();
     }
 
     @Override
-    public String getDesc() {
+    public Object getThird() {
         return getIdCurso().getCurso();
+    }
+
+    @Override
+    public String value() {
+        return "#" + getFirst() + " - " + getAluno();
+    }
+
+    @XmlTransient
+    public List<Disciplinas> getDisciplinasList1() {
+        return disciplinasList1;
+    }
+
+    public void setDisciplinasList1(List<Disciplinas> disciplinasList1) {
+        this.disciplinasList1 = disciplinasList1;
     }
 
     

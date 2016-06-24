@@ -5,16 +5,16 @@
  */
 package ui.model;
 
-import controller.CursosJpaController;
-import controller.DisciplinasJpaController;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
-import javax.persistence.Persistence;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Cursos;
 import model.Disciplinas;
 import mycustom.ItemSelection;
 import mycustom.CustomFrame;
+import ui.MainFrame;
 
 /**
  *
@@ -28,10 +28,7 @@ public class UiRelCursoDisciplina extends CustomFrame {
     public UiRelCursoDisciplina() {
         initComponents();
         
-        CursosJpaController c = 
-            new CursosJpaController(Persistence.createEntityManagerFactory("EnsinoMarioPU"));
-        
-        List<Cursos> cursos = c.findCursosEntities();
+        List<Cursos> cursos = MainFrame.CURSO_CONTROLLER.findCursosEntities();
         
         for (Cursos curso : cursos) {
             jcCursos.addItem(new ItemSelection<>(curso));
@@ -119,29 +116,23 @@ public class UiRelCursoDisciplina extends CustomFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         List<ItemSelection<Disciplinas>> dL = jLDisciplinas.getSelectedValuesList();
-              
-        List<Cursos> cursoses = new ArrayList<>();
-        List<Disciplinas> disciplinases = new ArrayList<>();
-        for (ItemSelection<Disciplinas> d1 : dL) {
-            cursoses.add(new Cursos(2));
-            disciplinases.add(d1.get());
+        ItemSelection<Cursos> c = (ItemSelection<Cursos>) jcCursos.getSelectedItem();
+        
+        Cursos curso = c.get();
+            
+        List<Disciplinas> ds = new ArrayList<>();
+        for (ItemSelection<Disciplinas> disc : dL) {
+            ds.add(disc.get());
         }
-                
-        DisciplinasJpaController d = 
-            new DisciplinasJpaController(Persistence.createEntityManagerFactory("EnsinoMarioPU"));
+       
+        curso.setDisciplinasList(ds);
         
-        Disciplinas d1 = new Disciplinas();
-        d1.setCursosList(cursoses);
-        
-        d.create(d1);
-        
-        CursosJpaController c = 
-            new CursosJpaController(Persistence.createEntityManagerFactory("EnsinoMarioPU"));
-        
-        Cursos c1 = new Cursos();
-        c1.setDisciplinasList(disciplinases);
-                
-        c.create(c1);
+        try {
+            MainFrame.CURSO_CONTROLLER.edit(curso);
+
+        } catch (Exception ex) {
+            Logger.getLogger(UiRelCursoDisciplina.class.getName()).log(Level.SEVERE, null, ex);
+        }
                   
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -156,17 +147,13 @@ public class UiRelCursoDisciplina extends CustomFrame {
         jLHasDisciplina.setText(null);
         if( c.isEmpty() ) {
             jLHasDisciplina.setText("Nenhuma disciplina!");
-            DisciplinasJpaController controller = 
-                    new DisciplinasJpaController(Persistence.createEntityManagerFactory("EnsinoMarioPU"));
             
-            List<Disciplinas> l = controller.findDisciplinasEntities();
+            List<Disciplinas> l = MainFrame.DISCIPLINA_CONTROLLER.findDisciplinasEntities();
             for (int i = 0; i <l.size(); i++) {
                 c.add(new ItemSelection<>(l.get(i)));
             }
         }
         jLDisciplinas.setListData(c);
-        
-        
     }//GEN-LAST:event_jcCursosActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

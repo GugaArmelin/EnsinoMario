@@ -43,7 +43,7 @@ public class FuncionariosJpaController implements Serializable {
             em.getTransaction().begin();
             List<Disciplinas> attachedDisciplinasList = new ArrayList<Disciplinas>();
             for (Disciplinas disciplinasListDisciplinasToAttach : funcionarios.getDisciplinasList()) {
-                disciplinasListDisciplinasToAttach = em.getReference(disciplinasListDisciplinasToAttach.getClass(), disciplinasListDisciplinasToAttach.getId());
+                disciplinasListDisciplinasToAttach = em.getReference(disciplinasListDisciplinasToAttach.getClass(), disciplinasListDisciplinasToAttach.getFirst());
                 attachedDisciplinasList.add(disciplinasListDisciplinasToAttach);
             }
             funcionarios.setDisciplinasList(attachedDisciplinasList);
@@ -65,12 +65,12 @@ public class FuncionariosJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Funcionarios persistentFuncionarios = em.find(Funcionarios.class, funcionarios.getId());
+            Funcionarios persistentFuncionarios = em.find(Funcionarios.class, funcionarios.getFirst());
             List<Disciplinas> disciplinasListOld = persistentFuncionarios.getDisciplinasList();
             List<Disciplinas> disciplinasListNew = funcionarios.getDisciplinasList();
             List<Disciplinas> attachedDisciplinasListNew = new ArrayList<Disciplinas>();
             for (Disciplinas disciplinasListNewDisciplinasToAttach : disciplinasListNew) {
-                disciplinasListNewDisciplinasToAttach = em.getReference(disciplinasListNewDisciplinasToAttach.getClass(), disciplinasListNewDisciplinasToAttach.getId());
+                disciplinasListNewDisciplinasToAttach = em.getReference(disciplinasListNewDisciplinasToAttach.getClass(), disciplinasListNewDisciplinasToAttach.getFirst());
                 attachedDisciplinasListNew.add(disciplinasListNewDisciplinasToAttach);
             }
             disciplinasListNew = attachedDisciplinasListNew;
@@ -113,7 +113,7 @@ public class FuncionariosJpaController implements Serializable {
             Funcionarios funcionarios;
             try {
                 funcionarios = em.getReference(Funcionarios.class, id);
-                funcionarios.getId();
+                funcionarios.getFirst();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The funcionarios with id " + id + " no longer exists.", enfe);
             }

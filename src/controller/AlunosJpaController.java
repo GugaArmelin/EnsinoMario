@@ -44,12 +44,12 @@ public class AlunosJpaController implements Serializable {
             em.getTransaction().begin();
             Cursos idCurso = alunos.getIdCurso();
             if (idCurso != null) {
-                idCurso = em.getReference(idCurso.getClass(), idCurso.getId());
+                idCurso = em.getReference(idCurso.getClass(), idCurso.getFirst());
                 alunos.setIdCurso(idCurso);
             }
             List<Disciplinas> attachedDisciplinasList = new ArrayList<Disciplinas>();
             for (Disciplinas disciplinasListDisciplinasToAttach : alunos.getDisciplinasList()) {
-                disciplinasListDisciplinasToAttach = em.getReference(disciplinasListDisciplinasToAttach.getClass(), disciplinasListDisciplinasToAttach.getId());
+                disciplinasListDisciplinasToAttach = em.getReference(disciplinasListDisciplinasToAttach.getClass(), disciplinasListDisciplinasToAttach.getFirst());
                 attachedDisciplinasList.add(disciplinasListDisciplinasToAttach);
             }
             alunos.setDisciplinasList(attachedDisciplinasList);
@@ -75,18 +75,18 @@ public class AlunosJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Alunos persistentAlunos = em.find(Alunos.class, alunos.getId());
+            Alunos persistentAlunos = em.find(Alunos.class, alunos.getFirst());
             Cursos idCursoOld = persistentAlunos.getIdCurso();
             Cursos idCursoNew = alunos.getIdCurso();
             List<Disciplinas> disciplinasListOld = persistentAlunos.getDisciplinasList();
             List<Disciplinas> disciplinasListNew = alunos.getDisciplinasList();
             if (idCursoNew != null) {
-                idCursoNew = em.getReference(idCursoNew.getClass(), idCursoNew.getId());
+                idCursoNew = em.getReference(idCursoNew.getClass(), idCursoNew.getFirst());
                 alunos.setIdCurso(idCursoNew);
             }
             List<Disciplinas> attachedDisciplinasListNew = new ArrayList<Disciplinas>();
             for (Disciplinas disciplinasListNewDisciplinasToAttach : disciplinasListNew) {
-                disciplinasListNewDisciplinasToAttach = em.getReference(disciplinasListNewDisciplinasToAttach.getClass(), disciplinasListNewDisciplinasToAttach.getId());
+                disciplinasListNewDisciplinasToAttach = em.getReference(disciplinasListNewDisciplinasToAttach.getClass(), disciplinasListNewDisciplinasToAttach.getFirst());
                 attachedDisciplinasListNew.add(disciplinasListNewDisciplinasToAttach);
             }
             disciplinasListNew = attachedDisciplinasListNew;
@@ -137,7 +137,7 @@ public class AlunosJpaController implements Serializable {
             Alunos alunos;
             try {
                 alunos = em.getReference(Alunos.class, id);
-                alunos.getId();
+                alunos.getFirst();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The alunos with id " + id + " no longer exists.", enfe);
             }
