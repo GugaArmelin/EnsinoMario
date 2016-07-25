@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import model.Funcionarios;
 import model.Cursos;
 import model.Disciplinas;
@@ -25,14 +26,23 @@ import model.Disciplinas;
  * @author thomaz
  */
 public class DisciplinasJpaController implements Serializable {
+    private DisciplinasJpaController(){
+    }
 
     public DisciplinasJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private EntityManagerFactory emf = null;
+    private static DisciplinasJpaController instance;
+    private static EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
+    }
+    public static DisciplinasJpaController getInstance(){
+        if(emf == null){
+            instance = new DisciplinasJpaController(Persistence.createEntityManagerFactory("EnsinoMarioPU"));
+        }
+        return instance;
     }
 
     public void create(Disciplinas disciplinas) {

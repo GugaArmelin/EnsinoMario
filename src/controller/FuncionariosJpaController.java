@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import model.Funcionarios;
 
 /**
@@ -23,14 +24,24 @@ import model.Funcionarios;
  * @author thomaz
  */
 public class FuncionariosJpaController implements Serializable {
+    private FuncionariosJpaController(){
+    }
 
     public FuncionariosJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private EntityManagerFactory emf = null;
+    private static FuncionariosJpaController instance;
+    
+    private static EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
+    }
+    public static FuncionariosJpaController getInstance(){
+        if(emf == null) {
+            instance = new FuncionariosJpaController(Persistence.createEntityManagerFactory("EnsinoMarioPU"));
+        }
+        return instance;
     }
 
     public void create(Funcionarios funcionarios) {

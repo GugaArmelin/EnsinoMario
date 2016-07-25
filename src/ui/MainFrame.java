@@ -32,14 +32,11 @@ public class MainFrame extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         
-        ALUNO_CONTROLLER = new AlunosJpaController(
-            Persistence.createEntityManagerFactory("EnsinoMarioPU"));
-        CURSO_CONTROLLER = new CursosJpaController(
-            Persistence.createEntityManagerFactory("EnsinoMarioPU"));
-        DISCIPLINA_CONTROLLER = new DisciplinasJpaController(
-            Persistence.createEntityManagerFactory("EnsinoMarioPU"));
-        FUNCIONARIO_CONTROLLER = new FuncionariosJpaController(
-            Persistence.createEntityManagerFactory("EnsinoMarioPU"));
+        ALUNO_CONTROLLER = AlunosJpaController.getInstance();
+        CURSO_CONTROLLER = CursosJpaController.getInstance();
+        DISCIPLINA_CONTROLLER = DisciplinasJpaController.getInstance();
+        FUNCIONARIO_CONTROLLER = FuncionariosJpaController.getInstance();
+            
     }
 
     /**

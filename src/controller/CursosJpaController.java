@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import model.Alunos;
 import model.Cursos;
 
@@ -23,15 +24,28 @@ import model.Cursos;
  *
  * @author thomaz
  */
-public class CursosJpaController implements Serializable {
+public class CursosJpaController implements Serializable{
 
+    private CursosJpaController(){
+    }
+    
     public CursosJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private EntityManagerFactory emf = null;
+    
+    private static CursosJpaController instance;
+    
+    private static EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
+    }
+    
+    public static CursosJpaController getInstance(){
+        if(emf == null){
+            instance = new CursosJpaController(Persistence.createEntityManagerFactory("EnsinoMarioPU"));
+        }
+        return instance;
     }
 
     public void create(Cursos cursos) {
@@ -226,5 +240,6 @@ public class CursosJpaController implements Serializable {
             em.close();
         }
     }
+
     
 }
